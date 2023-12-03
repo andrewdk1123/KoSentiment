@@ -166,11 +166,23 @@ CSV 파일을 읽어들여 다음과 같은 작업을 수행하여 데이터를 
 
 `KoGPT2DataAugmentor.py`에서는 긍정적인 문장이 담긴 데이터프레임을 받아와 각 문장에 대해 KoGPT-2 모델을 사용하여 새로운 문장을 생성합니다. 주어진 초기 문장을 바탕으로 생성된 문장의 다음 토큰은 모델의 출력 중 상위 k개 중에서 랜덤으로 선택됩니다. 생성된 문장은 원래 문장에서 추출되어 원본 문장과 대체된 후, 감정 레이블과 함께 저장 됩니다.
 
-Positive 텍스트로만 구성된 Subset `pos_training.csv`는 총 6126개의 Example로 구성되어 있으며, `KoGPT2DataAugmentor.py`를 통해 추가로 6126개의 Example을 생성 한 뒤, Data Cleansing을 통해 최종 ooo개의 문장을 새로운 학습 데이터로 추가하였습니다.
+Positive 텍스트로만 구성된 Subset `pos_training.csv`는 총 6126개의 Example로 구성되어 있으며, `KoGPT2DataAugmentor.py`를 통해 추가로 6126개의 Example을 생성 한 뒤, 새로운 학습 데이터로 추가하였습니다.
 
 ### Augmented Data Processing
 
 KoGPT-2를 이용해 생성된 자료에 대해 다음의 두 단계 전처리를 수행하였습니다.
 
-1. 각 행의 'sentence' 필드에서 첫 번째 문장만 남기고 따옴표를 제거합니다.
-2. Transformers 라이브러리의 BertTokenizer를 사용하여 문장을 토큰화하고 Subword 및 해시태그로 이루어진 문장을 제거 합니다.
+1. RegEx `(r'n(?=(?:(?:[^"]*"){2})*[^"]*$)')`를 사용하여 따옴표 안에 없는 모든 줄 바꿈 문자를 공백으로 바꿉니다. 각 행의 'sentence' 필드에서 첫 번째 문장만 남기고 따옴표를 제거합니다.
+2. `train.csv`에서와 마찬가지로 데이터 전처리와 Tokenization을 진행합니다.
+
+### Random Undersampling
+
+기존의 6126개 긍정문에 더해 새롭게 추가된 6126개를 합하여 모두 12252개의 Example들이 긍정적인 감정 (label=1)을 표현합니다. 
+
+추가로, 부정적인 문장 Example에 대해 Random Undersampling을 수행하여 최종적으로 아래와 같은 Label 분포를 구하였습니다.
+
+```
+label
+0    12252
+1    12252
+```
