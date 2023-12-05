@@ -1,4 +1,4 @@
-# KoSentiment: Classifying Sentiments in Language Conversations
+# KoSentiment: Classifying Sentiments in Conversational Text from Korean Language
 
 이 프로젝트는 [AI Hub](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&dataSetSn=86)에서 제공하는 한국어 감성 대화 말뭉치 데이터를 활용하여 자연어 처리 및 감정 분석을 수행합니다. 분석에 사용된 데이터는 크라우드 소싱을 통해 참가한 1,500명이 기여한 음성 및 한국어 코퍼스로 구성되어 있으며, 발화자의 구체적인 감정 상태를 태그하고 있습니다.
 
