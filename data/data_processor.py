@@ -7,8 +7,7 @@ import csv
 import re
 import os
 
-DATA_DIR = './data/'
-AUGMENTED_DIR = os.path.join(DATA_DIR, 'augmented_data/')
+AUGMENTED_DIR = './augmented_data/'
 
 def load_json(file_path):
     try:
@@ -83,14 +82,14 @@ def main():
         print("Processing raw data.")
 
         # JSON to CSV
-        raw_training_data = load_json(os.path.join(DATA_DIR, 'training_raw.json'))
-        raw_test_data = load_json(os.path.join(DATA_DIR, 'test_raw.json'))
+        raw_training_data = load_json('training_raw.json')
+        raw_test_data = load_json('test_raw.json')
 
-        save_csv(raw_training_data, os.path.join(DATA_DIR, 'training.csv'), ['emotion', 'sentence'])
-        save_csv(raw_test_data, os.path.join(DATA_DIR, 'test.csv'), ['emotion', 'sentence'])
+        save_csv(raw_training_data, 'training.csv', ['emotion', 'sentence'])
+        save_csv(raw_test_data, 'test.csv', ['emotion', 'sentence'])
 
         # Process data
-        training_data = process_data(os.path.join(DATA_DIR, 'training.csv'))
+        training_data = process_data('training.csv')
         y = training_data['label']
         counts = y.value_counts()
 
@@ -103,7 +102,7 @@ def main():
         print(f'"{os.path.join(AUGMENTED_DIR, "pos_training.csv")}" has been created.')
     else:
         # Process training and augmented training data
-        training_data = process_data(os.path.join(DATA_DIR, 'training.csv'))
+        training_data = process_data('training.csv')
         
         for i in range(1, 11):
             filename = os.path.join(AUGMENTED_DIR, f'augmented_df ({i}).csv')
@@ -133,7 +132,7 @@ def main():
         undersampled_df.to_csv('./data/processed_training.csv')
 
         # Process test data
-        test_data = process_data(os.path.join(DATA_DIR, 'test.csv'))
+        test_data = process_data('test.csv')
         test_data.to_csv('./data/processed_test.csv')
 
 if __name__ == "__main__":
