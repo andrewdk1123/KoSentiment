@@ -157,7 +157,7 @@ CSV 파일을 읽어들여 다음과 같은 작업을 수행하여 데이터를 
 
 일차 전처리 이후 Training Data의 label 분포는 다음과 같습니다.
 
-![Train Set Label Distribution](train_label_dist.png)
+![Train Set Label Distribution](./data/train_label_dist.png)
 
 위 그래프에서 확인할 수 있듯이, Positive로 태그된 텍스트가 Negative로 태그된 텍스트보다 부족한 경향이 있습니다. 이러한 불균형한 클래스 분포를 해결하기 위해, 먼저 Minor Class의 데이터만을 따로 추출한 후, `KoGPT2DataAugmentor.py`를 사용하여 데이터 증강을 시도했습니다. 이 과정에서 다음 두 가지 가정을 기반으로 작업하였습니다.
 
