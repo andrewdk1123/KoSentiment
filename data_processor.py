@@ -113,8 +113,6 @@ def main():
             # Append the processed DataFrame to the training_data
             training_data = pd.concat([training_data, processed_df], ignore_index=True)
 
-        training_data.to_csv('./data/processed_training.csv')
-
         # Perform random undersampling  
         y = training_data['label']
         X = training_data.drop('label', axis=1)
@@ -131,6 +129,8 @@ def main():
         plt.savefig('augmented_train_label_dist.png')
 
         print(y_resampled.value_counts())
+
+        undersampled_df.to_csv('./data/processed_training.csv')
 
         # Process test data
         test_data = process_data(os.path.join(DATA_DIR, 'test.csv'))
