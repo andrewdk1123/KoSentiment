@@ -23,27 +23,27 @@ def save_csv(data, csv_filename, fieldnames):
         writer.writeheader()
         writer.writerows(data)
 
-def clean_tokens(sentence):
-    # Function to clean tokens
-    cleaned_tokens = []
+# def clean_tokens(sentence):
+#     # Function to clean tokens
+#     cleaned_tokens = []
 
-    for token in sentence:
-        # Skip tokens starting with '#' or '<'
-        if token.startswith('#') or token.startswith('<'):
-            continue
+#     for token in sentence:
+#         # Skip tokens starting with '#' or '<'
+#         if token.startswith('#') or token.startswith('<'):
+#             continue
 
-        # Remove non-alphanumeric characters and non-Korean characters using regex
-        token = re.sub(r'[^a-zA-Z0-9\uAC00-\uD7A3\s]', '', token)
+#         # Remove non-alphanumeric characters and non-Korean characters using regex
+#         token = re.sub(r'[^a-zA-Z0-9\uAC00-\uD7A3\s]', '', token)
 
-        # If the token is not empty after cleaning, append to the list
-        if token:
-            cleaned_tokens.append(token)
+#         # If the token is not empty after cleaning, append to the list
+#         if token:
+#             cleaned_tokens.append(token)
 
-    return cleaned_tokens
+#     return cleaned_tokens
 
-def process_data(file_path, bert_model_name='kykim/bert-kor-base'):
+def process_data(file_path):
     
-    tokenizer = BertTokenizer.from_pretrained(bert_model_name)     
+#    tokenizer = BertTokenizer.from_pretrained(bert_model_name)     
     
     if file_path.startswith(AUGMENTED_DIR):
 
@@ -58,8 +58,8 @@ def process_data(file_path, bert_model_name='kykim/bert-kor-base'):
         df = df.drop('generated_sentence', axis=1)
 
         # Tokenize and clean sentences
-        df['tokenized_sentence'] = df['sentence'].apply(lambda x: tokenizer.tokenize(x))
-        df['cleaned_tokens'] = df['tokenized_sentence'].apply(clean_tokens)
+        #df['tokenized_sentence'] = df['sentence'].apply(lambda x: tokenizer.tokenize(x))
+        #df['cleaned_tokens'] = df['tokenized_sentence'].apply(clean_tokens)
 
         return df
 
@@ -72,8 +72,8 @@ def process_data(file_path, bert_model_name='kykim/bert-kor-base'):
         df['label'] = df['emotion'].apply(lambda x: 1 if x in positive_emotions else 0)
 
         # Tokenize and clean sentences
-        df['tokenized_sentence'] = df['sentence'].apply(lambda x: tokenizer.tokenize(x))
-        df['cleaned_tokens'] = df['tokenized_sentence'].apply(clean_tokens)
+        #df['tokenized_sentence'] = df['sentence'].apply(lambda x: tokenizer.tokenize(x))
+        #df['cleaned_tokens'] = df['tokenized_sentence'].apply(clean_tokens)
 
         return df
 
@@ -99,7 +99,7 @@ def main():
 
         pos_training_data = training_data[training_data['label'] == 1]
         pos_training_data.to_csv(os.path.join(AUGMENTED_DIR, 'pos_training.csv'))
-        print(f'"{os.path.join(AUGMENTED_DIR, "pos_training.csv")}" has been created.')
+        print(f"'{os.path.join(AUGMENTED_DIR, 'pos_training.csv')}' has been created.\nLet's open `KoGPT-2 Data Augmentor.ipynb` and augment positive examples!")
     else:
         # Process training and augmented training data
         training_data = process_data('training.csv')
